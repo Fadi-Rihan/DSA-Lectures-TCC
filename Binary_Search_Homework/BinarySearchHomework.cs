@@ -14,7 +14,33 @@ namespace Binary_Search_Homework // don't edit this line!!!
                                                                                 // من الممكن تمرير قيمة 0 لتجاهلهم
         {
             //TODO: write code for the ternary search algorithm and return the index of the element
-            return -1;
+            if (start > end)
+                return -1;
+            
+                int mid1 = start + (end - start) / 3;
+                int mid2 = end - (end - start) / 3;
+
+
+                if (arr[mid1] == key)
+                    return mid1;
+
+                if (arr[mid2] == key)
+                    return mid2;
+
+                if (key < arr[mid1])
+                {
+                    return TernarySearch(arr, key, start, mid1 - 1);
+                }
+                if (key > arr[mid2])
+                {
+                    return TernarySearch(arr , key , mid2 + 1, end);
+                }
+                else
+                {
+                    return TernarySearch(arr, key, mid1 + 1, mid2 - 1);
+                }
+
+           
         }
 
         public static int BinarySearchForCalculatingRepeated
@@ -24,13 +50,60 @@ namespace Binary_Search_Homework // don't edit this line!!!
                                                                     // من الممكن تمرير قيمة 0 لتجاهلهم
         {
             //TODO: this methods is for getting the first accurence of the key and the last accurance
-            return -1;
+            if (is_first)
+            {
+                if (start > end)
+                    return -1;
+
+                int mid = start + (end - start) / 2;
+
+                if (arr[mid] < key)
+                    return BinarySearchForCalculatingRepeated(arr, key, true, mid + 1, end);
+
+                if (arr[mid] > key)
+                    return BinarySearchForCalculatingRepeated(arr, key, true, start, mid - 1);
+
+                if (mid == 0 || arr[mid - 1] != key)
+                    return mid;
+
+                return BinarySearchForCalculatingRepeated(arr, key, true, start, mid - 1);
+
+            }
+            else
+            {
+                if (start > end)
+                {
+                    return -1;
+                }
+                int mid = start + (end - start) / 2;
+                if (arr[mid] < key)
+                    return BinarySearchForCalculatingRepeated(arr, key, false, mid + 1, end);
+
+                if (arr[mid] > key)
+                    return BinarySearchForCalculatingRepeated(arr, key, false, start, mid - 1);
+
+                if (mid == arr.Length - 1 || arr[mid + 1] != key)
+                    return mid;
+
+
+                return BinarySearchForCalculatingRepeated(arr, key, false, mid + 1, end);
+            }
+
+            //return -1;
         }
 
         public static int GetRepeatCount(int[] arr, int key) // don't edit this line!!!
         {
             //TODO: write code to calculate the repeat count of a spacific element
             // make sure to use the previous method in this method
+            int First = BinarySearchForCalculatingRepeated(arr, key, true, 0, arr.Length - 1);
+
+            int Last = BinarySearchForCalculatingRepeated(arr, key, false, 0, arr.Length - 1);
+
+            if (First != -1)
+            {
+                return Last - First + 1;
+            }
             return -1;
         }
     }
